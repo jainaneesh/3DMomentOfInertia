@@ -44,7 +44,7 @@ def cylinder(mass,length,radius,offx,offy,offz):
     return I
 
 
-def cylinder(mass,length,offx,offy,offz):
+def cube(mass,length,offx,offy,offz):
     I = np.zeros((3,3),dtype=np.float64)
     density = mass/(length[0]*length[1]*length[2])
 
@@ -70,29 +70,71 @@ def cylinder(mass,length,offx,offy,offz):
     return I
 
 
+print("Select the operation")
+print("1) MOI of single part")
+print("2) MOI of a composite body")
+operation = int(input("Enter the operation number: "))
 
-# mass = float(input("Enter the mass of the cylinder: "))
-# length = float(input("Enter the length of the cylinder: "))
-# radius1 = float(input("Enter the inner radius of the cylinder: "))
-# radius2 = float(input("Enter the outer radius of the cylinder: "))
-# radius = [radius1,radius2]
+while (operation==1):
+    print("Which object do you want: ")
+    print("1) Cylinder")
+    print("2) Cube/cuboid")
+    object = int(input("Enter your choice: "))
+    if (object==1):
+        mass = float(input("Enter the mass of the cylinder: "))
+        length = float(input("Enter the length of the cylinder: "))
+        radius1 = float(input("Enter the inner radius of the cylinder: "))
+        radius2 = float(input("Enter the outer radius of the cylinder: "))
+        radius = [radius1,radius2]
+        offsetx = float(input("Enter x offset distance: "))
+        offsety = float(input("Enter y offset distance: "))
+        offsetz = float(input("Enter z offset distance: "))
+
+        I = cylinder(mass,length,radius,offsetx,offsety,offsetz)
+        
+    elif (object==2):
+        mass = float(input("Enter the mass of the cube: "))
+        length1 = float(input("Enter the length 1(Length 1 is along the x axis): "))
+        length2 = float(input("Enter the length 2(Length 2 is along the y axis): "))
+        length3 = float(input("Enter the length 3(Length 3 is along the z axis): "))
+        length = [length1,length2,length3]
+        offsetx = float(input("Enter x offset distance: "))
+        offsety = float(input("Enter y offset distance: "))
+        offsetz = float(input("Enter z offset distance: "))
+
+        I = cube(mass,length,offsetx,offsety,offsetz)
+
+    print("Another object?")
+    print("1) Yes")
+    print("2) No")
+    con = int(input("Enter your choice"))
+    if (con==1):
+        operation = 1
+    elif (con==2):
+        operation = 0
+
+
+while (operation==2):
+    print("Which body do you want first: ")
+    print("1) Cylinder")
+    print("2) Cube/cuboid")
+    comp = int(input("Enter the first body: "))
+
+
+
+
+
+# mass = float(input("Enter the mass of the cube: "))
+# length1 = float(input("Enter the length 1(Length 1 is along the x axis): "))
+# length2 = float(input("Enter the length 2(Length 2 is along the y axis): "))
+# length3 = float(input("Enter the length 3(Length 3 is along the z axis): "))
+
+# length = [length1,length2,length3]
 # offsetx = float(input("Enter x offset distance: "))
 # offsety = float(input("Enter y offset distance: "))
 # offsetz = float(input("Enter z offset distance: "))
 
-# I = cylinder(mass,length,radius,offsetx,offsety,offsetz)
-
-mass = float(input("Enter the mass of the cube: "))
-length1 = float(input("Enter the length 1(Length 1 is along the x axis): "))
-length2 = float(input("Enter the length 2(Length 2 is along the y axis): "))
-length3 = float(input("Enter the length 3(Length 3 is along the z axis): "))
-
-length = [length1,length2,length3]
-offsetx = float(input("Enter x offset distance: "))
-offsety = float(input("Enter y offset distance: "))
-offsetz = float(input("Enter z offset distance: "))
-
-I = cylinder(mass,length,offsetx,offsety,offsetz)
+# I = cylinder(mass,length,offsetx,offsety,offsetz)
 
 
 
