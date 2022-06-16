@@ -7,7 +7,96 @@ import numpy as np
 
 
     
-# def calcCentroid(KPA):
+def calcCentroid(KPA,numObj):
+    centroidVal = np.zeros((1,4))
+    i=0
+    volumeMatrix = np.zeros((numObj,1))
+    prodX = np.zeros((2,1))
+    prodY = np.zeros((2,1))
+    prodZ = np.zeros((2,1))
+    while(i<numObj):
+        if (KPA[i][4]==1):
+            volume = math.pi*(pow(KPA[i][2],2)-pow(KPA[i][1],2))*KPA[i][0]
+            prodx = volume*KPA[i][5]
+            prody = volume*KPA[i][6]
+            prodz = volume*KPA[i][7]
+            
+        elif (KPA[i][4]==2):
+            volume = KPA[i][0]*KPA[i][1]*KPA[i][2]
+            prodx = volume*KPA[i][5]
+            prody = volume*KPA[i][6]
+            prodz = volume*KPA[i][7]
+        
+        prodX[i][0] = prodx
+        prodY[i][0] = prody
+        prodZ[i][0] = prodz
+        volumeMatrix[i][0] = volume
+        
+        i=i+1
+    sumx=0
+    sumy=0
+    sumz=0
+    volsum=0
+    for j in range(0,numObj):
+        sumx = sumx + prodX[j][0]
+        sumy = sumy + prodY[j][0]
+        sumz = sumz + prodZ[j][0]
+        volsum = volsum + volumeMatrix[j][0]
+
+    centroidX = sumx/volsum
+    centroidY = sumy/volsum
+    centroidZ = sumz/volsum
+    # print("-------------------------------------------------------------")
+    # print("Do you want the centroid?")
+    # print("1) Yes")
+    # print("2) No")
+    # YN = int(input("Enter your choice: "))
+    # print("-------------------------------------------------------------")
+    # print("Centroid:")
+    # print("X : " + str(centroidX) + "\tY : " + str(centroidY) + "\tZ : " + str(centroidZ))
+    # centroidVal[0][0] = YN
+    # centroidVal[0][1] = centroidX
+    # centroidVal[0][2] = centroidY
+    # centroidVal[0][3] = centroidZ
+    print(centroidX,centroidY,centroidZ)
+    return centroidX,centroidY,centroidZ
+
+
+def compMOI(coords,KPA,numObj):
+    if (numObj==2):
+        if (coords[0][0]==coords[1][0] and coords[0][1]==coords[1][1]):
+            print("DO you want MOI about start?")
+            print("1) Yes")
+            print("2) No")
+            aMOI = int(input("Enter your choice: "))
+            print("-------------------------------------------------------------")
+            objCount = 1
+            if (aMOI==1 and objCount==1):
+                # calculating offsets
+                for i in range(0,numObj):
+                    if (KPA[i][4]==1):
+                        # Calculating offset for cylinder
+                        offsetx = KPA[i][5]-coords[0][0]
+                        offsety = KPA[i][6]-coords[0][1]
+                        offsetz = KPA[i][7]-coords[0][2]
+                        radius = [KPA[i][1],KPA[i][2]]
+                        Icyl = cylinderMOI(KPA[i][3],KPA[i][0],radius,offsetx,offsety,offsetz)
+                        objCount = objCount+1
+                    elif (KPA[i][4]==2):
+                        # Calculating offset for cube/cuboid
+                        offsetx = KPA[i][5]-coords[0][0]
+                        offsety = KPA[i][6]-coords[0][1]
+                        offsetz = KPA[i][7]-coords[0][2]
+                        length = [KPA[i][0],KPA[i][1],KPA[i][2]]
+                        Icube = cubeMOI(KPA[i][3],length,offsetx,offsety,offsetz)
+                        objCount = objCount+1
+                Itotal = Icyl+Icube
+    print(Itotal)
+    return Itotal
+
+    
+
+
 
 
 
@@ -154,64 +243,59 @@ while (operation==1):
 
 
 while (operation==2):
+    keepCount=0
     print("Enter the number of objects: ")
     numObj = int(input("Number of objects: "))
+    if (numObj==2):
+        coords = np.zeros((2,3),np.float64)
+    elif (numObj==3):
+        coords = np.zeros((3,3),np.float64)
+    elif (numObj==4):
+        coords = np.zeros((6,3),np.float64)
     print("-------------------------------------------------------------")
-    #  declaring the parameters here
-    KPA = np.zeros((numObj,8),np.float64)
-    # par2 = np.zeros((numObj,1))
-    # par3 = np.zeros((numObj,1))
-    # par4 = np.zeros((numObj,1))
-    # par5 = np.zeros((numObj,1))
-    # par6 = np.zeros((numObj,1))
-    # par7 = np.zeros((numObj,1))
-    # par8 = np.zeros((numObj,1))
+
+    KPA = np.zeros((numObj,8))
     print("Enter the base")
     start = np.zeros((3,1),np.float64)
     for i in range(0,3):
         start[i][0] = float(input("Enter X" + str(i+1) + ":")) 
-
+        coords[0][i] = start[i][0]
     print("-------------------------------------------------------------")
     print("Which body do you want first: ")
     print("1) Cylinder")
     print("2) Cube/cuboid")
     comp = int(input("Enter the first body: \n")) 
     print("-------------------------------------------------------------") 
-    if (comp==1):
-        masscyl = float(input("Enter the mass of the cylinder: "))
-        lengthcyl = float(input("Enter the length of the cylinder: "))
-        radius1 = float(input("Enter the inner radius of the cylinder: "))
-        radius2 = float(input("Enter the outer radius of the cylinder: "))
-        radius = [radius1,radius2]
-        CGcyl = np.zeros((3,1),np.float64)
-        CGcyl[0][0] = start[0][0]
-        CGcyl[1][0] = start[1][0]
-        CGcyl[2][0] = (lengthcyl/2)+start[2][0]
-        KPA[0][0] = lengthcyl
-        KPA[0][1] = radius[0]
-        KPA[0][2] = radius[1]
-        KPA[0][3] = masscyl
-        KPA[0][4] = 1
-        KPA[0][5] = CGcyl[0][0]
-        KPA[0][6] = CGcyl[1][0]
-        KPA[0][7] = CGcyl[2][0]
-        
-        
-        
-        print("-------------------------------------------------------------")
-        print("Enter the point of contact on the cylinder:")
-        con_point_cyl = np.zeros((3,1),np.float64)
-        for i in range(0,3):
-            con_point_cyl[i][0] = float(input("Enter X" + str(i+1) + ":")) 
 
-        print("-------------------------------------------------------------")
 
-        print("Which body do you want next?: ")
-        print("1) Cylinder")
-        print("2) Cube/cuboid")
-        comp = int(input("Enter the next body: \n"))  
-        print("-------------------------------------------------------------")
-        if (comp==2):
+    for ii in range(0,numObj):
+       
+        if (comp==1 and ii<numObj):
+            masscyl = float(input("Enter the mass of the cylinder: "))
+            lengthcyl = float(input("Enter the length of the cylinder: "))
+            radius1 = float(input("Enter the inner radius of the cylinder: "))
+            radius2 = float(input("Enter the outer radius of the cylinder: "))
+            radius = [radius1,radius2]
+            CGcyl = np.zeros((3,1),np.float64)
+            CGcyl[0][0] = start[0][0]
+            CGcyl[1][0] = start[1][0]
+            CGcyl[2][0] = (lengthcyl/2)+start[2][0]
+            KPA[0][0] = lengthcyl
+            KPA[0][1] = radius[0]
+            KPA[0][2] = radius[1]
+            KPA[0][3] = masscyl
+            KPA[0][4] = 1
+            KPA[0][5] = CGcyl[0][0]
+            KPA[0][6] = CGcyl[1][0]
+            KPA[0][7] = CGcyl[2][0]           
+            print("-------------------------------------------------------------")
+            print("Enter the point of contact on the cylinder:")
+            con_point_cyl = np.zeros((3,1),np.float64)
+            for i in range(0,3):
+                con_point_cyl[i][0] = float(input("Enter X" + str(i+1) + ":")) 
+                coords[1][i] = start[i][0]
+                
+        elif (comp==2 and ii<numObj):
             masscube = float(input("Enter the mass of the cube/cuboid: "))
             length1 = float(input("Enter the length 1(Length 1 is along the x axis): "))
             length2 = float(input("Enter the length 2(Length 2 is along the y axis): "))
@@ -221,11 +305,39 @@ while (operation==2):
             print("Enter the vector for the cube/cuboid:")
             vector = np.zeros((3,1))
             for i in range(0,3):
-                vector[i][0] = int(input("Enter X" + str(i+1) + ":")) 
-                # print(type(vector[i][0]))
-                # while vector[i][0]!=-1 or vector[i][0]!=1 or vector[i][0]!=0:
-                #     print("The vector should be either 1,-1 or 0")
-                #     vector[i][0] = int(input("Enter X" + str(i+1) + ":")) 
+                vector[i] = int(input("Enter X" + str(i+1) + ":"))                 
+                if vector[i]==-1:
+                    arg1=-1
+                    arg2=1
+                    arg3=0
+                elif vector[i]==1:
+                    arg1=-1
+                    arg2=1
+                    arg3=0
+                elif vector[i]==0:
+                    arg1=-1
+                    arg2=1
+                    arg3=0
+                else:
+                    arg1 = vector[i]
+                    arg2 = vector[i]
+                    arg3 = vector[i]
+                while (arg1!=-1 or arg2!=1 or arg3!=0):
+                    print("The vector should be either 1,-1 or 0")
+                    vector[i] = int(input("Enter X" + str(i+1) + ":")) 
+                    if vector[i]==-1:
+                        arg1=-1
+                        arg2=1
+                        arg3=0
+                    elif vector[i]==1:
+                        arg1=-1
+                        arg2=1
+                        arg3=0
+                    elif vector[i]==0:
+                        arg1=-1
+                        arg2=1
+                        arg3=0
+
             print("-------------------------------------------------------------")
             CGcube = np.zeros((3,1),np.float64)
             CGcube[0][0] = (lengthcube[0]/2)*vector[0][0]
@@ -236,12 +348,11 @@ while (operation==2):
             KPA[1][2] = lengthcube[2]
             KPA[1][3] = masscube
             KPA[1][4] = 2
-            # KPA = keepaccount(param)
             print("Enter the point of contact on the cube/cuboid:")
             con_point_cube = np.zeros((3,1),np.float64)
             for i in range(0,3):
                 con_point_cube[i][0] = float(input("Enter X" + str(i+1) + ":")) 
-            # print(CGcube)
+
             print("-------------------------------------------------------------")
             CGcubex,CGcubey,CGcubez = compCube(CGcube,start,lengthcube,con_point_cube,vector,lengthcyl)
             CGcube = np.zeros((3,1),np.float64)
@@ -251,8 +362,21 @@ while (operation==2):
             KPA[1][5] = CGcube[0][0]
             KPA[1][6] = CGcube[1][0]
             KPA[1][7] = CGcube[2][0]
-            # print(CGcube)
-            # print(KPA)
+            
+        
+        if (ii<numObj-1):
+            # print("-------------------------------------------------------------")
+            print("Which body do you want next?: ")
+            print("1) Cylinder")
+            print("2) Cube/cuboid")
+            comp = int(input("Enter the next body: \n"))  
+            print("-------------------------------------------------------------")
+
+    centroidX,centroidY,centroidZ = calcCentroid(KPA,numObj)
+    Itotal = compMOI(coords,KPA,numObj)
+
+
+
 
 
 
