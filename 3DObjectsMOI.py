@@ -172,6 +172,7 @@ def compCyl(CGcyl,start,con_point_cyl1,vector,lengthcyl):
                 CGzcyl = CGcyl[2][0]-(lengthcyl/2+con_point_cyl1[2][0])
             elif (start[2][0]>0):
                 CGzcyl = (CGcyl[2][0]+start[2][0])-(lengthcyl/2+con_point_cyl1[2][0])
+    return CGxcyl,CGycyl,CGzcyl
         
 
 
@@ -315,35 +316,35 @@ while (operation==2):
             print("Enter the vectors for the cylinder:")
             vector = np.zeros((3,2),np.int8)
             for iii in range(0,3):
-                vector[i][0] = int(input("Enter X" + str(i+1) + ":"))                 
-                if vector[i][0]==-1:
+                vector[iii][0] = int(input("Enter X" + str(iii+1) + ":"))                 
+                if vector[iii][0]==-1:
                     arg1=-1
                     arg2=1
                     arg3=0
-                elif vector[i][0]==1:
+                elif vector[iii][0]==1:
                     arg1=-1
                     arg2=1
                     arg3=0
-                elif vector[i][0]==0:
+                elif vector[iii][0]==0:
                     arg1=-1
                     arg2=1
                     arg3=0
                 else:
-                    arg1 = vector[i][0]
-                    arg2 = vector[i][0]
-                    arg3 = vector[i][0]
+                    arg1 = vector[iii][0]
+                    arg2 = vector[iii][0]
+                    arg3 = vector[iii][0]
                 while (arg1!=-1 or arg2!=1 or arg3!=0):
                     print("The vector should be either 1,-1 or 0")
-                    vector[i] = int(input("Enter X" + str(i+1) + ":")) 
-                    if vector[i][0]==-1:
+                    vector[iii] = int(input("Enter X" + str(iii+1) + ":")) 
+                    if vector[iii][0]==-1:
                         arg1=-1
                         arg2=1
                         arg3=0
-                    elif vector[i][0]==1:
+                    elif vector[iii][0]==1:
                         arg1=-1
                         arg2=1
                         arg3=0
-                    elif vector[i][0]==0:
+                    elif vector[iii][0]==0:
                         arg1=-1
                         arg2=1
                         arg3=0
@@ -371,61 +372,61 @@ while (operation==2):
                             while (start[i][0]!=0 and con_point_cyl1[i][0]!=0):
                                 while (start[i][0]!=0):
                                     print("For x vector 0 x base should be 0")
-                                    start[i][0] = float(input("Enter X" + str(i+1) + ":")) 
+                                    start[i][0] = float(input("Enter start point X" + str(i+1) + ":")) 
                                     coords[0][i] = start[i][0]
                                 while (con_point_cyl1[i][0]!=0):
                                     print("For x vector 0 x base 0, x contact point 1 should be 0")
-                                    con_point_cyl1[i][0] = float(input("Enter X" + str(i+1) + ":")) 
+                                    con_point_cyl1[i][0] = float(input("Enter contact point X" + str(i+1) + ":")) 
                                     coords[1][i] = con_point_cyl1[i][0]
                         elif (vector[i][0]==1):
                             if (start[i][0]==0):
                                 while (con_point_cyl1>=0 or con_point_cyl1<-radius[1]):
                                     print("For x vector 1 x base 0 x contact point 1 should be less than 0 and greater than" + -str(radius[1]))
-                                    con_point_cyl1[i][0] = float(input("Enter X" + str(i+1) + ":")) 
+                                    con_point_cyl1[i][0] = float(input("Enter contact point X" + str(i+1) + ":")) 
                                 coords[1][i] = con_point_cyl1[i][0] 
                             elif (start[i][0]< -radius[1] or start[i][0]< 0): 
                                 while (start[i][0]>=0 or start[i][0]<=-radius[1]):
                                     print("For x vector 1 x base should be greater than" + str(-radius[1]) + "and smaller than 0")
-                                    start[i][0] = float(input("Enter X" + str(i+1) + ":")) 
+                                    start[i][0] = float(input("Enter start point X" + str(i+1) + ":")) 
                                 coords[0][i] = start[i][0]                            
                                 while (con_point_cyl1[i][0]<-radius[1] or con_point_cyl1[i][0]>start[i][0]):
                                     print("For x vector 1 x base less than 1 x start should be less than" + start[i][0] + "and greater than" + -str(radius[1]))
-                                    con_point_cyl1[i][0] = float(input("Enter X" + str(i+1) + ":"))                                 
+                                    con_point_cyl1[i][0] = float(input("Enter contact point X" + str(i+1) + ":"))                                 
                                 coords[1][i] = con_point_cyl1[i][0]
                             elif (start[i][0]>0 and start[i][0]<radius[1]):
                                 while(con_point_cyl1[i][0]>0 or con_point_cyl1[i][0]<-radius[1]):
                                     print("For x vector 1 x base greater than 0 x contact point on the cylinder should be greater than" + -str(radius[1]) + "and less than 0")
-                                    con_point_cyl1[i][0] = float(input("Enter X" + str(i+1) + ":"))                                 
+                                    con_point_cyl1[i][0] = float(input("Enter contact point X" + str(i+1) + ":"))                                 
                                 coords[1][i] = con_point_cyl1[i][0]
                             elif (start[i][0]>radius[1]):
                                 while(con_point_cyl1[i][0]>radius[1] or con_point_cyl1[i][0]<-radius[1]):
-                                    print("For x vector 1 x base greater than radius x contact point on the cylinder should be greater than" + -str(radius[1]) + "and less than" + str(radius[1]))
-                                    con_point_cyl1[i][0] = float(input("Enter X" + str(i+1) + ":"))                                 
+                                    print("For x vector 1 x base greater than radius x contact point on the cylinder should be greater than" + str(-radius[1]) + "and less than" + str(radius[1]))
+                                    con_point_cyl1[i][0] = float(input("Enter contact point X" + str(i+1) + ":"))                                 
                                 coords[1][i] = con_point_cyl1[i][0]
                         elif (vector[i][0]==-1):
                             if (start[i][0]==0):
                                 while (con_point_cyl1[i][0]<=0 or con_point_cyl1[i][0]>radius[1]):
                                     print("For x vector -1 x base 0 x contact point 1 should be greater than 0 and less than" + str(radius[1]))
-                                    con_point_cyl1[i][0] = float(input("Enter X" + str(i+1) + ":")) 
+                                    con_point_cyl1[i][0] = float(input("Enter contact point X" + str(i+1) + ":")) 
                                 coords[1][i] = con_point_cyl1[i][0] 
                             if (start[i][0]>radius[1] or start[i][0]> 0): 
                                 while (start[i][0]<=0 or start[i][0]>=radius[1]):
                                     print("For x vector -1 x base should be greater than 0 and smaller than" + str(radius[1]))
-                                    start[i][0] = float(input("Enter X" + str(i+1) + ":")) 
+                                    start[i][0] = float(input("Enter start point X" + str(i+1) + ":")) 
                                 coords[0][i] = start[i][0]                            
                                 while (con_point_cyl1[i][0]>=radius[1] or con_point_cyl1[i][0]<start[i][0]):
                                     print("For x vector -1 x base greater than 1 x start should be less than" + str(radius[1]) +  "and greater than" + start[i][0])
-                                    con_point_cyl1[i][0] = float(input("Enter X" + str(i+1) + ":"))                                 
+                                    con_point_cyl1[i][0] = float(input("Enter contact point X" + str(i+1) + ":"))                                 
                                 coords[1][i] = con_point_cyl1[i][0]
                             elif (start[i][0]<0 and start[i][0]>-radius[1]):
                                 while(con_point_cyl1[i][0]<0 or con_point_cyl1[i][0]>radius[1]):
                                     print("For x vector -1 x base less than 0 x contact point on the cylinder should be greater than" + -str(radius[1]) + "and less than 0")
-                                    con_point_cyl1[i][0] = float(input("Enter X" + str(i+1) + ":"))                                 
+                                    con_point_cyl1[i][0] = float(input("Enter contact point X" + str(i+1) + ":"))                                 
                                 coords[1][i]= con_point_cyl1[i][0]
                             elif (start[i][0]<-radius[1]):
                                 while(con_point_cyl1[i][0]>radius[1] or con_point_cyl1[i][0]<-radius[1]):
                                     print("For x vector 1 x base greater than radius x contact point on the cylinder should be greater than" + -str(radius[1]) + "and less than" + str(radius[1]))
-                                    con_point_cyl1[i][0] = float(input("Enter X" + str(i+1) + ":"))                                 
+                                    con_point_cyl1[i][0] = float(input("Enter contact point X" + str(i+1) + ":"))                                 
                                 coords[1][i] = con_point_cyl1[i][0]
                         
                     elif (i==1):
@@ -434,61 +435,61 @@ while (operation==2):
                             while (start[i][0]!=0 and con_point_cyl1[i][0]!=0):
                                 while (start[i][0]!=0):
                                     print("For y vector 0 y base should be 0")
-                                    start[i][0] = float(input("Enter X" + str(i+1) + ":")) 
+                                    start[i][0] = float(input("Enter start point X" + str(i+1) + ":")) 
                                 coords[0][i] = start[i][0]
                                 while (con_point_cyl1[i][0]!=0):
                                     print("For y vector 0 y base 0, y contact point 1 should be 0")
-                                    con_point_cyl1[i][0] = float(input("Enter X" + str(i+1) + ":")) 
+                                    con_point_cyl1[i][0] = float(input("Enter contact point X" + str(i+1) + ":")) 
                                 coords[1][i] = con_point_cyl1[i][0]
                         elif (vector[i][0]==1):
                             if (start[i][0]==0):
                                 while (con_point_cyl1[i][0]>=0 or con_point_cyl1[i][0]<-radius[1]):
                                     print("For y vector 1 y base 0 y contact point 1 should be less than 0 and greater than" + -str(radius[1]))
-                                    con_point_cyl1[i][0] = float(input("Enter X" + str(i+1) + ":")) 
+                                    con_point_cyl1[i][0] = float(input("Enter contact point X" + str(i+1) + ":")) 
                                 coords[1][i] = con_point_cyl1[i][0] 
                             elif (start[i][0]< -radius[1] or start[i][0]< 0): 
                                 while (start[i][0]>=0 or start[i][0]<=-radius[1]):
                                     print("For y vector 1 y base should be greater than" + str(-radius[1]) + "and smaller than 0")
-                                    start[i][0] = float(input("Enter X" + str(i+1) + ":")) 
+                                    start[i][0] = float(input("Enter start point X" + str(i+1) + ":")) 
                                 coords[0][i] = start[i][0]                            
                                 while (con_point_cyl1[i][0]<=-radius[1] or con_point_cyl1[i][0]>start[i][0]):
                                     print("For y vector 1 y base less than 1 y start should be less than" + start[i][0] + "and greater than" + -str(radius[1]))
-                                    con_point_cyl1[i][0] = float(input("Enter X" + str(i+1) + ":"))                                 
+                                    con_point_cyl1[i][0] = float(input("Enter contact point X" + str(i+1) + ":"))                                 
                                 coords[1][i] = con_point_cyl1[i][0]
                             elif (start[i][0]>0 and start[i][0]<radius[1]):
                                 while(con_point_cyl1[i][0]>0 or con_point_cyl1[i][0]<-radius[1]):
-                                    print("For x vector 1 x base greater than 0 x contact point on the cylinder should be greater than" + -str(radius[1]) + "and less than 0")
-                                    con_point_cyl1[i][0] = float(input("Enter X" + str(i+1) + ":"))                                 
+                                    print("For y vector 1 y base greater than 0 y contact point on the cylinder should be greater than" + -str(radius[1]) + "and less than 0")
+                                    con_point_cyl1[i][0] = float(input("Enter contact point X" + str(i+1) + ":"))                                 
                                 coords[1][i] = con_point_cyl1[i][0]
                             elif (start[i][0]>radius[1]):
                                 while(con_point_cyl1[i][0]>radius[1] or con_point_cyl1[i][0]<-radius[1]):
-                                    print("For x vector 1 x base greater than radius x contact point on the cylinder should be greater than" + -str(radius[1]) + "and less than" + str(radius[1]))
-                                    con_point_cyl1[i][0] = float(input("Enter X" + str(i+1) + ":"))                                 
+                                    print("For y vector 1 y base greater than radius y contact point on the cylinder should be greater than" + -str(radius[1]) + "and less than" + str(radius[1]))
+                                    con_point_cyl1[i][0] = float(input("Enter contact point X" + str(i+1) + ":"))                                 
                                 coords[1][i] = con_point_cyl1[i][0]
                         elif (vector[i][0]==-1):
                             if (start[i][0]==0):
                                 while (con_point_cyl1<=0 or con_point_cyl1>radius[1]):
-                                    print("For x vector -1 x base 0 x contact point 1 should be greater than 0 and less than" + str(radius[1]))
-                                    con_point_cyl1[i][0] = float(input("Enter X" + str(i+1) + ":")) 
+                                    print("For y vector -1 y base 0 y contact point 1 should be greater than 0 and less than" + str(radius[1]))
+                                    con_point_cyl1[i][0] = float(input("Enter contact point X" + str(i+1) + ":")) 
                                 coords[1][i] = con_point_cyl1[i][0] 
                             if (start[i][0]>radius[1] or start[i][0]> 0): 
                                 while (start[i][0]<=0 or start[i][0]>=radius[1]):
-                                    print("For x vector -1 x base should be greater than 0 and smaller than" + str(radius[1]))
-                                    start[i][0] = float(input("Enter X" + str(i+1) + ":")) 
+                                    print("For y vector -1 y base should be greater than 0 and smaller than" + str(radius[1]))
+                                    start[i][0] = float(input("Enter start point X" + str(i+1) + ":")) 
                                 coords[0][i] = start[i][0]                            
                                 while (con_point_cyl1[i][0]>=radius[1] or con_point_cyl1[i][0]<start[i][0]):
-                                    print("For x vector -1 x base greater than 1 x start should be less than" + str(radius[1]) +  "and greater than" + start[i][0])
-                                    con_point_cyl1[i][0] = float(input("Enter X" + str(i+1) + ":"))                                 
+                                    print("For y vector -1 y base greater than 1 y start should be less than" + str(radius[1]) +  "and greater than" + start[i][0])
+                                    con_point_cyl1[i][0] = float(input("Enter contact point X" + str(i+1) + ":"))                                 
                                 coords[1][i] = con_point_cyl1[i][0]
                             elif (start[i][0]<0 and start[i][0]>-radius[1]):
                                 while(con_point_cyl1[i][0]<0 or con_point_cyl1[i][0]>radius[1]):
-                                    print("For x vector -1 x base less than 0 x contact point on the cylinder should be greater than" + -str(radius[1]) + "and less than 0")
-                                    con_point_cyl1[i][0] = float(input("Enter X" + str(i+1) + ":"))                                 
+                                    print("For y vector -1 y base less than 0 y contact point on the cylinder should be greater than" + -str(radius[1]) + "and less than 0")
+                                    con_point_cyl1[i][0] = float(input("Enter contact point X" + str(i+1) + ":"))                                 
                                 coords[1][i]= con_point_cyl1[i][0]
                             elif (start[i][0]<-radius[1]):
                                 while(con_point_cyl1[i][0]>radius[1] or con_point_cyl1[i][0]<-radius[1]):
-                                    print("For x vector 1 x base greater than radius x contact point on the cylinder should be greater than" + -str(radius[1]) + "and less than" + str(radius[1]))
-                                    con_point_cyl1[i][0] = float(input("Enter X" + str(i+1) + ":"))                                 
+                                    print("For y vector 1 y base greater than radius y contact point on the cylinder should be greater than" + -str(radius[1]) + "and less than" + str(radius[1]))
+                                    con_point_cyl1[i][0] = float(input("Enter contact point X" + str(i+1) + ":"))                                 
                                 coords[1][i] = con_point_cyl1[i][0]
                     elif (i==2):
                         # For z coordinate of the base
