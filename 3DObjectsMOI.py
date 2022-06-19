@@ -284,12 +284,9 @@ while (operation==2):
     keepCount=0
     print("Enter the number of objects: ")
     numObj = int(input("Number of objects: "))
-    if (numObj==2):
-        coords = np.zeros((2,3),np.float64)
-    elif (numObj==3):
-        coords = np.zeros((3,3),np.float64)
-    elif (numObj==4):
-        coords = np.zeros((6,3),np.float64)
+    
+    coords = np.zeros((2*numObj,3),np.float64)
+    
     print("------------------------------------------------------------------------------------------------")
     KPA = np.zeros((numObj,8))    
     print("------------------------------------------------------------------------------------------------")
@@ -315,7 +312,7 @@ while (operation==2):
                 coords[1][i] = con_point_cyl1[i][0]
             print("------------------------------------------------------------------------------------------------")
             print("Enter the vectors for the cylinder:")
-            vector = np.zeros((3,2),np.int8)
+            vector = np.zeros((3*numObj,2),np.int8)
             for iii in range(0,3):
                 vector[iii][0] = int(input("Enter X" + str(iii+1) + ":"))                 
                 if vector[iii][0]==-1:
@@ -687,51 +684,90 @@ while (operation==2):
             KPA[0][5] = CGxcyl
             KPA[0][6] = CGycyl
             KPA[0][7] = CGzcyl           
-            print("-------------------------------------------------------------")
+            print("------------------------------------------------------------------------------------------------")
+            con_point_cyl2 = np.zeros((3,1),np.float64)
+            print("Enter the contact point 2 on cylinder: ")
+            for j in range(0,3):
+                con_point_cyl2[j][0] = float(input("Enter the second point of contact on the cylinder X" + str(j+1) + ": "))
+                if (j==0):
+                    while (con_point_cyl2[j][0]<KPA[0][5]-radius[1] or con_point_cyl2[j][0]>KPA[0][5]+radius[1]):
+                        print("------------------------------------------------------------------------------------------------")
+                        print("X Contact point 2 should lie between " + str(KPA[0][5]-radius[1]) + " and " + str(KPA[0][5]+radius[1]))
+                        print("------------------------------------------------------------------------------------------------")
+                        con_point_cyl2[j][0] = float(input("Enter the second point of contact on the cylinder X" + str(j+1) + ": "))
+                        flag = 0
+                elif (j==1):
+                    while (con_point_cyl2[j][0]<KPA[0][6]-radius[1] or con_point_cyl2[j][0]>KPA[0][6]+radius[1]):
+                        if (flag==0):
+                            print("Y Contact point 2 should lie between " + str(KPA[0][6]-radius[1]) + " and " + str(KPA[0][6]+radius[1]))
+                            print("------------------------------------------------------------------------------------------------")
+                            flag = 1
+                        else: 
+                            print("------------------------------------------------------------------------------------------------")
+                            print("Y Contact point 2 should lie between " + str(KPA[0][6]-radius[1]) + " and " + str(KPA[0][6]+radius[1]))
+                            print("------------------------------------------------------------------------------------------------")
+                            con_point_cyl2[j][0] = float(input("Enter the second point of contact on the cylinder X" + str(j+1) + ": "))
+                            flag = 1
+                elif (j==2):
+                    while (con_point_cyl2[j][0]!=KPA[0][7]+lengthcyl/2):
+                        if (flag==1):
+                            print("Z Contact point 2 should be " + str(KPA[0][7]+lengthcyl/2))
+                            print("------------------------------------------------------------------------------------------------")
+                        else:
+                            print("------------------------------------------------------------------------------------------------")
+                            print("Z Contact point 2 should be " + str(KPA[0][7]+lengthcyl/2))
+                            print("------------------------------------------------------------------------------------------------")
+                        con_point_cyl2[j][0] = float(input("Enter the second point of contact on the cylinder X" + str(j+1) + ": "))
+                coords[2][j] = con_point_cyl2[j][0]
+
+
             
                 
         elif (comp==2 and ii==1):
             masscube = float(input("Enter the mass of the cube/cuboid: "))
             length1 = float(input("Enter the length 1(Length 1 is along the x axis): "))
             length2 = float(input("Enter the length 2(Length 2 is along the y axis): "))
-            length3 = float(input("Enter the length 3(Length 3 is along the z axis): \n"))
+            length3 = float(input("Enter the length 3(Length 3 is along the z axis): "))
             lengthcube = [length1,length2,length3]
             print("-------------------------------------------------------------")
             print("Enter the vector for the cube/cuboid:")
-            vector = np.zeros((3,1))
-            for i in range(0,3):
-                vector[i] = int(input("Enter X" + str(i+1) + ":"))                 
-                if vector[i]==-1:
+            vector = np.zeros((3,1)) 
+            for jj in range(0,3):
+                vector[jj][0] = int(input("Enter X" + str(jj+1) + ":"))                
+                if vector[jj][0]==-1:
                     arg1=-1
                     arg2=1
                     arg3=0
-                elif vector[i]==1:
+                elif vector[jj][0]==1:
                     arg1=-1
                     arg2=1
                     arg3=0
-                elif vector[i]==0:
+                elif vector[jj][0]==0:
                     arg1=-1
                     arg2=1
                     arg3=0
                 else:
-                    arg1 = vector[i]
-                    arg2 = vector[i]
-                    arg3 = vector[i]
+                    arg1 = vector[jj][0]
+                    arg2 = vector[jj][0]
+                    arg3 = vector[jj][0]
                 while (arg1!=-1 or arg2!=1 or arg3!=0):
                     print("The vector should be either 1,-1 or 0")
-                    vector[i] = int(input("Enter X" + str(i+1) + ":")) 
-                    if vector[i]==-1:
+                    vector[jj][0] = int(input("Enter X" + str(jj+1) + ":")) 
+                    if vector[jj][0]==-1:
                         arg1=-1
                         arg2=1
                         arg3=0
-                    elif vector[i]==1:
+                    elif vector[jj][0]==1:
                         arg1=-1
                         arg2=1
                         arg3=0
-                    elif vector[i]==0:
+                    elif vector[jj][0]==0:
                         arg1=-1
                         arg2=1
                         arg3=0
+                # if (vector[jj][0]==1):
+
+                    
 
             print("-------------------------------------------------------------")
             CGcube = np.zeros((3,1),np.float64)
@@ -760,12 +796,12 @@ while (operation==2):
             
         
         if (ii<numObj-1):
-            # print("-------------------------------------------------------------")
+            print("------------------------------------------------------------------------------------------------")
             print("Which body do you want next?: ")
             print("1) Cylinder")
             print("2) Cube/cuboid")
-            comp = int(input("Enter the next body: \n"))  
-            print("-------------------------------------------------------------")
+            comp = int(input("Enter the next body: "))  
+            print("------------------------------------------------------------------------------------------------")
 
     centroidX,centroidY,centroidZ = calcCentroid(KPA,numObj)
     Itotal = compMOI(coords,KPA,numObj)
