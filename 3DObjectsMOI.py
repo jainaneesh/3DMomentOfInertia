@@ -778,7 +778,7 @@ while (operation==2):
                         elif con_point_cyl2[jjj][0]>0 and con_point_cyl2[jjj][0]<=KPA[0][5]+radius1:
                             print("Enter the contact point on the cube")
                             con_point_cube[jjj][0] = float(input("Enter the contact point X" + str(jjj+1) + " on the cube:"))
-                            while(con_point_cube[jjj][0]>0 or con_point_cube[jjj][0]<-lengthcube[0]/2):
+                            while(con_point_cube[jjj][0]>=con_point_cyl2[jjj][0] or con_point_cube[jjj][0]<-lengthcube[0]/2):
                                 print("The contact point X on the cube should be greater than or equal to " + str(-lengthcube[0]/2) + " and less than or equal to 0" )
                                 con_point_cube[jjj][0] = float(input("Enter the correct contact point X" + str(jjj+1) + " on the cube:"))
                         elif con_point_cyl2[jjj][0]<0 and con_point_cyl2[jjj][0]>=KPA[0][5]-radius1:
@@ -853,6 +853,98 @@ while (operation==2):
                                 con_point_cube[jjj][0] = float(input("Enter the correct contact point X" + str(jjj+1) + " on the cube:"))
                         else:
                             print("Incorrect or invalid contact point interface entered on cylinder!")
+                    elif KPA[0][5]<-lengthcube[0]/2:
+                        print("The entered values are not valid")
+
+                elif vector[jjj+3][0]==-1:
+                    if KPA[0][5]==0:
+                        if con_point_cyl2[jjj][0]==0:
+                            print("Enter the contact point on the cube")
+                            con_point_cube[jjj][0] = float(input("Enter the contact point X" + str(jjj+1) + " on the cube:"))
+                            while(con_point_cube[jjj][0]<=0 or con_point_cube[jjj][0]>lengthcube[0]/2):
+                                print("The contact point X on the cube should be less than or equal to " + str(lengthcube[0]/2) + " and greater than 0" )
+                                con_point_cube[jjj][0] = float(input("Enter the correct contact point X" + str(jjj+1) + " on the cube:"))
+                        elif con_point_cyl2[jjj][0]>0 and con_point_cyl2[jjj][0]<=KPA[0][5]+radius1:
+                            print("Enter the contact point on the cube")
+                            con_point_cube[jjj][0] = float(input("Enter the contact point X" + str(jjj+1) + " on the cube:"))
+                            while(con_point_cube[jjj][0]<=con_point_cyl2[jjj][0] or con_point_cube[jjj][0]>lengthcube[0]/2):
+                                print("The contact point X on the cube should be less than or equal to " + str(lengthcube[0]/2) + " and greater than 0" )
+                                con_point_cube[jjj][0] = float(input("Enter the correct contact point X" + str(jjj+1) + " on the cube:"))
+                        elif con_point_cyl2[jjj][0]<0 and con_point_cyl2[jjj][0]>=KPA[0][5]-radius1:
+                            print("Enter the contact point on the cube")
+                            con_point_cube[jjj][0] = float(input("Enter the contact point X" + str(jjj+1) + " on the cube:"))
+                            while(con_point_cube[jjj][0]<=con_point_cyl2[jjj][0] or con_point_cube[jjj][0]>lengthcube[0]/2):
+                                print("The contact point X on the cube should be greater than " + str(con_point_cyl2[jjj][0]) + " and less than " + str(lengthcube[0]))
+                                con_point_cube[jjj][0] = float(input("Enter the correct contact point X" + str(jjj+1) + " on the cube:"))
+                    elif KPA[0][5]<0 and KPA[0][5]>=-lengthcube[0]/2:
+                        if con_point_cyl2[jjj][0]==0:
+                            print("Enter the contact point on the cube")
+                            con_point_cube[jjj][0] = float(input("Enter the contact point X" + str(jjj+1) + " on the cube:"))
+                            while(con_point_cube[jjj][0]<=KPA[0][5] or con_point_cube[jjj][0]>lengthcube[0]/2):
+                                print("The contact point X on the cube should be greater than " + str(KPA[0][5]) + " and less than or equal to " + str(lengthcube[0]/2))
+                                con_point_cube[jjj][0] = float(input("Enter the correct contact point X" + str(jjj+1) + " on the cube:"))
+                        elif con_point_cyl2[jjj][0]>0 and con_point_cyl2[jjj][0]<=radius1:
+                            print("Enter the contact point on the cube")
+                            con_point_cube[jjj][0] = float(input("Enter the contact point X" + str(jjj+1) + " on the cube:"))
+                            while(con_point_cube[jjj][0]<=KPA[0][5]-con_point_cyl2[jjj][0] or con_point_cube[jjj][0]>lengthcube[0]/2):
+                                print("The contact point X on the cube should be greater than " + str(KPA[0][5]-con_point_cyl2[jjj][0]) + " and less than or equal to " + str(lengthcube[0]/2))
+                                con_point_cube[jjj][0] = float(input("Enter the correct contact point X" + str(jjj+1) + " on the cube:"))
+                        elif con_point_cyl2[jjj][0]<0 and con_point_cyl2[jjj][0]>=-radius1:
+                            print("Enter the contact point on the cube")
+                            con_point_cube[jjj][0] = float(input("Enter the contact point X" + str(jjj+1) + " on the cube:"))
+                            while(con_point_cube[jjj][0]>=KPA[0][5]+con_point_cyl2[jjj][0] or con_point_cube[jjj][0]<-lengthcube[0]/2):
+                                print("The contact point X on the cube should be greater than or equal to " + str(-lengthcube[0]/2) + " and less than " + str(KPA[0][5]+con_point_cyl2[jjj][0]))
+                                con_point_cube[jjj][0] = float(input("Enter the correct contact point X" + str(jjj+1) + " on the cube:"))
+                    elif KPA[0][5]>lengthcube[0]/2 and KPA[0][5]<=lengthcube[0]/2+radius1:
+                        if con_point_cyl2[jjj][0]<=-(KPA[0][5]-lengthcube[0]/2) and con_point_cyl2[jjj][0]>=-radius1:
+                            print("Enter the contact point on the cube")
+                            con_point_cube[jjj][0] = float(input("Enter the contact point X" + str(jjj+1) + " on the cube:"))
+                            while(con_point_cube[jjj][0]>=KPA[0][5]+con_point_cyl2[jjj][0] or con_point_cube[jjj][0]<-lengthcube[0]/2):
+                                print("The contact point X on the cube should be greater than or equal to " + str(-lengthcube[0]/2) + " and less than " + str(KPA[0][5]+con_point_cyl2[jjj][0]))
+                                con_point_cube[jjj][0] = float(input("Enter the correct contact point X" + str(jjj+1) + " on the cube:"))
+                        else:
+                            print("Enter the contact point on the cube")
+                            con_point_cube[jjj][0] = float(input("Enter the contact point X" + str(jjj+1) + " on the cube:"))
+                            while(con_point_cube[jjj][0]>lengthcube[0]/2 or con_point_cube[jjj][0]<-lengthcube[0]/2):
+                                print("The contact point X on the cube should be greater than or equal to " + str(-lengthcube[0]/2) + " and less than or equal to " + str(lengthcube[0]/2))
+                                con_point_cube[jjj][0] = float(input("Enter the correct contact point X" + str(jjj+1) + " on the cube:"))
+                    elif KPA[0][5]>lengthcube[0]/2+radius1:
+                        print("Enter the contact point on the cube")
+                        con_point_cube[jjj][0] = float(input("Enter the contact point X" + str(jjj+1) + " on the cube:"))
+                        while(con_point_cube[jjj][0]>lengthcube[0]/2 or con_point_cube[jjj][0]<-lengthcube[0]/2):
+                            print("The contact point X on the cube should be greater than or equal to " + str(-lengthcube[0]/2) + " and less than or equal to " + str(lengthcube[0]/2))
+                            con_point_cube[jjj][0] = float(input("Enter the correct contact point X" + str(jjj+1) + " on the cube:"))
+                    elif KPA[0][5]<0 and KPA[0][5]>=-(lengthcube[0]/2-radius1):
+                        if con_point_cyl2[jjj][0]==0:
+                            print("Enter the contact point on the cube")
+                            con_point_cube[jjj][0] = float(input("Enter the contact point X" + str(jjj+1) + " on the cube:")) 
+                            while(con_point_cube[jjj][0]>=KPA[0][5] or con_point_cube[jjj][0]<-lengthcube[0]/2):
+                                print("The contact point X on the cube should be greater than or equal to " + str(-lengthcube[0]/2) + " and less than " + str(KPA[0][5]))
+                                con_point_cube[jjj][0] = float(input("Enter the correct contact point X" + str(jjj+1) + " on the cube:"))
+                        elif con_point_cyl2[jjj][0]>0 and con_point_cyl2[jjj][0]<=-radius1:
+                            print("Enter the contact point on the cube")
+                            con_point_cube[jjj][0] = float(input("Enter the contact point X" + str(jjj+1) + " on the cube:")) 
+                            while(con_point_cube[jjj][0]>=KPA[0][5]-con_point_cyl2[jjj][0] or con_point_cube[jjj][0]<-lengthcube[0]/2):
+                                print("The contact point X on the cube should be greater than or equal to " + str(-lengthcube[0]/2) + " and less than " + str(KPA[0][5]-con_point_cyl2[jjj][0]))
+                                con_point_cube[jjj][0] = float(input("Enter the correct contact point X" + str(jjj+1) + " on the cube:"))
+                        elif con_point_cyl2[jjj][0]<0 and con_point_cyl2[jjj][0]>=-radius1:
+                            print("Enter the contact point on the cube")
+                            con_point_cube[jjj][0] = float(input("Enter the contact point X" + str(jjj+1) + " on the cube:")) 
+                            while(con_point_cube[jjj][0]>=KPA[0][5]+con_point_cyl2[jjj][0] or con_point_cube[jjj][0]<-lengthcube[0]/2):
+                                print("The contact point X on the cube should be greater than or equal to " + str(-lengthcube[0]/2) + " and less than " + str(KPA[0][5]+con_point_cyl2[jjj][0]))
+                                con_point_cube[jjj][0] = float(input("Enter the correct contact point X" + str(jjj+1) + " on the cube:"))
+                    elif KPA[0][5]==-lengthcube[0]/2:
+                        if con_point_cyl2[jjj][0]>0 and con_point_cyl2[jjj][0]<=-radius1:
+                            print("Enter the contact point on the cube")
+                            con_point_cube[jjj][0] = float(input("Enter the contact point X" + str(jjj+1) + " on the cube:")) 
+                            while(con_point_cube[jjj][0]>KPA[0][5]-con_point_cyl2[jjj][0] or con_point_cube[jjj][0]<-lengthcube[0]/2):
+                                print("The contact point X on the cube should be greater than or equal to " + str(-lengthcube[0]/2) + " and less than " + str(KPA[0][5]-con_point_cyl2[jjj][0]))
+                                con_point_cube[jjj][0] = float(input("Enter the correct contact point X" + str(jjj+1) + " on the cube:"))
+                        else:
+                            print("Incorrect or invalid contact point interface entered on cylinder!")
+                    elif KPA[0][5]<-lengthcube[0]/2:
+                        print("The entered values are not valid")
+
 
 
 
